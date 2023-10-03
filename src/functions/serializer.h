@@ -1,3 +1,9 @@
+//===--- serializer.h - Tasknow sturct serializer -------------------------===//
+//
+// Part of the NekoCdr's "tasknow" project, under the Apache License v2.0
+//
+//===----------------------------------------------------------------------===//
+
 #ifndef TASKNOW_SERIALIZER_H
 #define TASKNOW_SERIALIZER_H
 

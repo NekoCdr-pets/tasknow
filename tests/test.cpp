@@ -1,3 +1,9 @@
+//===--- test.cpp - tests entry point  ------------------------------------===//
+//
+// Part of the NekoCdr's "tasknow" project, under the Apache License v2.0
+//
+//===----------------------------------------------------------------------===//
+
 #include "defines.h"
 #include "types/sdto.h"
 #include "types/task.h"

@@ -1,3 +1,9 @@
+//===--- serializer.cpp - Tasknow data serializer -------------------------===//
+//
+// Part of the NekoCdr's "tasknow" project, under the Apache License v2.0
+//
+//===----------------------------------------------------------------------===//
+
 #include "defines.h"
 #include "serializer.h"
 

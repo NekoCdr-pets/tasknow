@@ -1,3 +1,9 @@
+//===--- defines.h - Tasknow global defines & constants -------------------===//
+//
+// Part of the NekoCdr's "tasknow" project, under the Apache License v2.0
+//
+//===----------------------------------------------------------------------===//
+
 #ifndef TASKNOW_DEFINES_H
 #define TASKNOW_DEFINES_H
 
