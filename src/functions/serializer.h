@@ -1,7 +1,6 @@
 #ifndef TASKNOW_SERIALIZER_H
 #define TASKNOW_SERIALIZER_H
 
-#include "defines.h"
 #include "types/sdto.h"
 #include "types/task.h"
 

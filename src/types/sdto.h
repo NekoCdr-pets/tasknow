@@ -1,12 +1,12 @@
 #ifndef TASKNOW_SDTO_H
 #define TASKNOW_SDTO_H
 
-#include <cstdint>
+#include "defines.h"
 
 namespace tasknow::types {
 
 struct sdto {
-    int16_t size;
+    size16_t size;
     unsigned char* data;
 };
 
