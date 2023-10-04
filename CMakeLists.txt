@@ -7,14 +7,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(FETCHCONTENT_QUIET OFF)
 
-add_executable(tasknow
+add_executable(tasknowd
     src/main.cpp
 )
 
 add_subdirectory(tests)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(tasknow PRIVATE
+    target_compile_options(tasknowd PRIVATE
         "-Weverything"
         "-Wno-c++98-compat"
         "-Wno-c++98-compat-pedantic"
@@ -29,7 +29,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         "-Wno-padded"
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(tasknow PRIVATE
+    target_compile_options(tasknowd PRIVATE
         "-Wall"
         "-Wextra"
         "-Wpedantic"
