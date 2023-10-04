@@ -64,7 +64,10 @@ auto unserialize(Buffer* input) -> Task
     memcpy(&title_size, input->data.get() + offset, SizeofST);
     offset += SizeofST;
 
-    output.title.assign(reinterpret_cast<const char*>(input->data.get()) + offset, title_size);
+    output.title.assign(
+        reinterpret_cast<const char*>(input->data.get()) + offset,
+        title_size
+    );
 
     #pragma GCC diagnostic pop
     // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
