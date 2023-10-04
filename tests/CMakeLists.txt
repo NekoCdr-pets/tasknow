@@ -19,4 +19,5 @@ add_executable(tasknow-test
 )
 target_link_libraries(tasknow-test PRIVATE
     Boost::ut
+    libtasknow
 )

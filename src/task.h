@@ -1,4 +1,4 @@
-//===--- defines.h - Tasknow global defines & constants -------------------===//
+//===--- task.h - Task struct and [un]serializer --------------------------===//
 //
 // Copyright (c) 2023 Yuri Istomin
 //
@@ -8,17 +8,21 @@
 //
 //===----------------------------------------------------------------------===//
 
-#ifndef TASKNOW_DEFINES_H
-#define TASKNOW_DEFINES_H
+#ifndef TASKNOW_TASK_H
+#define TASKNOW_TASK_H
 
-#include <cstddef>
-#include <cstdint>
+#include "buffer.h"
+
+#include <string>
 
 namespace tasknow {
 
-using Size_t = int16_t;
-constexpr const std::size_t SizeofST{sizeof(Size_t)};
+struct Task {
+    std::string title;
+};
+
+auto serialize(Task* input) -> Buffer;
 
 } // end namespace tasknow
 
-#endif // TASKNOW_DEFINES_H
+#endif //TASKNOW_TASK_H

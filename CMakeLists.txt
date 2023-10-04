@@ -7,9 +7,18 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(FETCHCONTENT_QUIET OFF)
 
+add_library(libtasknow OBJECT
+    src/buffer.h
+    src/defines.h
+    src/task.h
+    src/task.cpp
+)
+target_include_directories(libtasknow PUBLIC src)
+
 add_executable(tasknowd
     src/main.cpp
 )
+target_link_libraries(tasknowd PRIVATE libtasknow)
 
 add_subdirectory(tests)
 
