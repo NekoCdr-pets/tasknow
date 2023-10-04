@@ -8,12 +8,35 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "buffer.h"
+#include "task.h"
+
 #include <boost/ut.hpp>
 
+#include <cstring>
+
 using namespace boost::ut;
+
+namespace tn = tasknow;
 
 // NOLINTNEXTLINE
 int main()
 {
+    "task_[un]serializer"_test = [] {
+        const char* str{"abc"};
+        tn::Task task{str};
+
+        tn::Buffer serialized_task = tn::serialize(&task);
+        tn::Task unserialized_task = tn::unserialize(&serialized_task);
+
+        expect(serialized_task.size == 5_i16);
+        expect(0_i == std::strcmp(str, task.title.c_str()));
+        expect(0_i == std::strcmp(str, unserialized_task.title.c_str()));
+        expect(0_i == std::strcmp(
+            task.title.c_str(),
+            unserialized_task.title.c_str()
+        ));
+    };
+    
     return 0;
 }
