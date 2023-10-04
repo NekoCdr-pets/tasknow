@@ -22,6 +22,7 @@ struct Task {
 };
 
 auto serialize(Task* input) -> Buffer;
+auto unserialize(Buffer* input) -> Task;
 
 } // end namespace tasknow
 

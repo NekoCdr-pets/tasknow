@@ -50,4 +50,27 @@ auto serialize(Task* input) -> Buffer
     return output;
 }
 
+auto unserialize(Buffer* input) -> Task
+{
+    Task output{};
+    std::size_t title_size{};
+    std::size_t offset{0};
+
+    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+
+    memcpy(&title_size, input->data.get() + offset, SizeofST);
+    offset += SizeofST;
+
+    output.title.assign(reinterpret_cast<const char*>(input->data.get()) + offset, title_size);
+
+    #pragma GCC diagnostic pop
+    // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
+    // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+
+    return output;
+}
+
 } // end namespace tasknow
