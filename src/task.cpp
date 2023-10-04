@@ -26,11 +26,10 @@ auto serialize(Task* input) -> Buffer
     Buffer output{};
     std::size_t title_size = input->title.size();
 
-    std::size_t raw_data_size{SizeofST + SizeofST + title_size};
-    std::size_t offsets[3]{
+    std::size_t raw_data_size{SizeofST + title_size};
+    std::size_t offsets[2]{
         0,
         SizeofST,
-        SizeofST * 2,
     };
 
     auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
@@ -39,9 +38,8 @@ auto serialize(Task* input) -> Buffer
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 
-    memcpy(buff.get() + offsets[0], &raw_data_size, SizeofST);
-    memcpy(buff.get() + offsets[1], &title_size, SizeofST);
-    memcpy(buff.get() + offsets[2], input->title.data(), title_size);
+    memcpy(buff.get() + offsets[0], &title_size, SizeofST);
+    memcpy(buff.get() + offsets[1], input->title.data(), title_size);
 
     #pragma GCC diagnostic pop
     // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
