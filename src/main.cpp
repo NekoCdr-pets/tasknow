@@ -1,4 +1,5 @@
-int main ()
+// NOLINTNEXTLINE
+int main()
 {
     return 0;
 }

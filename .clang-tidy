@@ -1,0 +1,22 @@
+Checks: '-*,bugprone-*,concurrency-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-identifier-*,-bugprone-not-null-terminated-result,-*-avoid-c-arrays'
+CheckOptions:
+  - key:             readability-identifier-naming.ClassCase
+    value:           Leading_upper_snake_case
+  - key:             readability-identifier-naming.EnumCase
+    value:           Leading_upper_snake_case
+  - key:             readability-identifier-naming.EnumConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.FunctionCase
+    value:           lower_case
+  - key:             readability-identifier-naming.MemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.UnionCase
+    value:           Leading_upper_snake_case
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.IgnoreMainLikeFunctions
+    value:           1
