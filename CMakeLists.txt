@@ -11,6 +11,8 @@ add_executable(tasknow
     src/main.cpp
 )
 
+add_subdirectory(tests)
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     target_compile_options(tasknow PRIVATE
         "-Weverything"
