@@ -9,11 +9,13 @@
 
 #include "defines.h"
 
+#include <memory>
+
 namespace tasknow::types {
 
 struct sdto {
-    size16_t size;
-    unsigned char* data;
+    Size16_t size;
+    std::unique_ptr<unsigned char[]> data;
 };
 
 } // end namespace tasknow::types

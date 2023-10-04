@@ -36,6 +36,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         "-Wno-c++17-compat-pedantic"
         "-Wno-c++20-compat"
         "-Wno-c++20-compat-pedantic"
+        "-Wno-padded"
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(libtasknow PRIVATE

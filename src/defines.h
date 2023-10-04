@@ -12,8 +12,8 @@
 
 namespace tasknow {
 
-using size16_t = int16_t;
-constexpr const size_t sizeof16_t{sizeof(size16_t)};
+using Size16_t = int16_t;
+constexpr const size_t Sizeof16T{sizeof(Size16_t)};
 
 }
 

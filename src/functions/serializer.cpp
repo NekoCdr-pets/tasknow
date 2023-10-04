@@ -4,12 +4,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-#include "defines.h"
 #include "serializer.h"
+
+#include "defines.h"
 
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
+#include <memory>
+#include <utility>
 
 namespace tasknow::functions {
 
@@ -17,21 +20,26 @@ void serialize(tn_types::task* input, tn_types::sdto* output)
 {
     size_t title_size = input->title.size();
 
-    size_t raw_data_size{sizeof16_t + sizeof16_t + title_size};
+    size_t raw_data_size{Sizeof16T + Sizeof16T + title_size};
     size_t offsets[3]{
         0,
-        sizeof16_t,
-        sizeof16_t * 2,
+        Sizeof16T,
+        Sizeof16T * 2,
     };
 
-    unsigned char* buff = static_cast<unsigned char*>(malloc(raw_data_size));
+    auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
 
-    memcpy(buff + offsets[0], &raw_data_size, sizeof16_t);
-    memcpy(buff + offsets[1], &title_size, sizeof16_t);
-    memcpy(buff + offsets[2], input->title.data(), title_size);
+    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+    memcpy(buff.get() + offsets[0], &raw_data_size, Sizeof16T);
+    memcpy(buff.get() + offsets[1], &title_size, Sizeof16T);
+    memcpy(buff.get() + offsets[2], input->title.data(), title_size);
+    #pragma GCC diagnostic pop
+    // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
-    output->size = static_cast<size16_t>(raw_data_size);
-    output->data = buff;
+    output->size = static_cast<Size16_t>(raw_data_size);
+    output->data = std::move(buff);
 }
 
 } // end namespace tasknow::functions
