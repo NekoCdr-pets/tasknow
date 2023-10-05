@@ -23,7 +23,7 @@ target_link_libraries(tasknowd PRIVATE libtasknow)
 add_subdirectory(tests)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(tasknowd PRIVATE
+    target_compile_options(libtasknow PUBLIC
         "-Weverything"
         "-Wno-c++98-compat"
         "-Wno-c++98-compat-pedantic"
@@ -39,7 +39,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         "-Wno-unsafe-buffer-usage" # https://github.com/llvm/llvm-project/issues/64646#issuecomment-1747952699
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(tasknowd PRIVATE
+    target_compile_options(libtasknow PUBLIC
         "-Wall"
         "-Wextra"
         "-Wpedantic"
