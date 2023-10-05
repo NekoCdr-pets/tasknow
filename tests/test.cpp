@@ -30,12 +30,7 @@ int main()
         tn::Task unserialized_task = tn::unserialize(&serialized_task);
 
         expect(serialized_task.size == 5_i16);
-        expect(0_i == std::strcmp(str, task.title.c_str()));
-        expect(0_i == std::strcmp(str, unserialized_task.title.c_str()));
-        expect(0_i == std::strcmp(
-            task.title.c_str(),
-            unserialized_task.title.c_str()
-        ));
+        expect(task == unserialized_task);
     };
     
     return 0;
