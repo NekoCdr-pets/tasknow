@@ -27,7 +27,7 @@ int main()
         std::string str{"abc"};
         tn::Task task{str};
 
-        size_t buff_size{tn::SizeofST + str.size()};
+        std::size_t buff_size{tn::BytesForSize + str.size()};
 
         tn::Buffer serialized_task = tn::serialize(&task);
         tn::Task unserialized_task = tn::unserialize(&serialized_task);

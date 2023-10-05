@@ -40,18 +40,18 @@ auto serialize(Task* input) -> Buffer
     Buffer output{};
     std::size_t title_size = input->title.size();
 
-    std::size_t raw_data_size{SizeofST + title_size};
+    std::size_t raw_data_size{BytesForSize + title_size};
     std::size_t offsets[2]{
         0,
-        SizeofST,
+        BytesForSize,
     };
 
     auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
 
-    memcpy(buff.get() + offsets[0], &title_size, SizeofST);
+    memcpy(buff.get() + offsets[0], &title_size, BytesForSize);
     memcpy(buff.get() + offsets[1], input->title.data(), title_size);
 
-    output.size = static_cast<Size_t>(raw_data_size);
+    output.size = static_cast<D_size_t>(raw_data_size);
     output.data = std::move(buff);
 
     return output;
@@ -63,8 +63,8 @@ auto unserialize(Buffer* input) -> Task
     std::size_t title_size{};
     std::size_t offset{0};
 
-    memcpy(&title_size, input->data.get() + offset, SizeofST);
-    offset += SizeofST;
+    memcpy(&title_size, input->data.get() + offset, BytesForSize);
+    offset += BytesForSize;
 
     output.title.assign(
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
