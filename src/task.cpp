@@ -74,4 +74,4 @@ auto unserialize(Buffer* input) -> Task
     return output;
 }
 
-} // end namespace tasknow
+} // namespace tasknow

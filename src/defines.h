@@ -19,6 +19,6 @@ namespace tasknow {
 using Size_t = int16_t;
 constexpr const std::size_t SizeofST{sizeof(Size_t)};
 
-} // end namespace tasknow
+} // namespace tasknow
 
 #endif // TASKNOW_DEFINES_H
