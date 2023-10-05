@@ -25,10 +25,7 @@ auto Task::operator==(const Task& right) const -> bool
 {
     bool result{true};
 
-    result &= std::strcmp(
-        this->title.c_str(),
-        right.title.c_str()
-    ) == 0;
+    result &= this->title == right.title;
 
     return result;
 }
