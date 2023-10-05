@@ -20,6 +20,7 @@ add_executable(tasknowd
 )
 target_link_libraries(tasknowd PRIVATE libtasknow)
 
+add_subdirectory(src/tasknow-cli)
 add_subdirectory(tests)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
