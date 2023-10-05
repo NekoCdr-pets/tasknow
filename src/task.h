@@ -19,6 +19,9 @@ namespace tasknow {
 
 struct Task {
     std::string title;
+
+    auto operator==(const Task& right) const -> bool;
+    auto operator!=(const Task& right) const -> bool;
 };
 
 auto serialize(Task* input) -> Buffer;

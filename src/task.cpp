@@ -21,6 +21,23 @@
 
 namespace tasknow {
 
+auto Task::operator==(const Task& right) const -> bool
+{
+    bool result{true};
+
+    result &= std::strcmp(
+        this->title.c_str(),
+        right.title.c_str()
+    ) == 0;
+
+    return result;
+}
+
+auto Task::operator!=(const Task& right) const -> bool
+{
+    return !(*this == right);
+}
+
 auto serialize(Task* input) -> Buffer
 {
     Buffer output{};
