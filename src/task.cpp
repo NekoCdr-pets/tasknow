@@ -64,8 +64,6 @@ auto unserialize(Buffer* input) -> Task
     std::size_t offset{0};
 
     // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 
     memcpy(&title_size, input->data.get() + offset, SizeofST);
     offset += SizeofST;
@@ -75,7 +73,6 @@ auto unserialize(Buffer* input) -> Task
         title_size
     );
 
-    #pragma GCC diagnostic pop
     // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 
     return output;
