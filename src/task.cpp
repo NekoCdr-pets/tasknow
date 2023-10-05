@@ -63,17 +63,13 @@ auto unserialize(Buffer* input) -> Task
     std::size_t title_size{};
     std::size_t offset{0};
 
-    // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
-
     memcpy(&title_size, input->data.get() + offset, SizeofST);
     offset += SizeofST;
 
     output.title.assign(
-        reinterpret_cast<const char*>(input->data.get()) + offset,
+        reinterpret_cast<const char*>(input->data.get()) + offset, // NOLINT
         title_size
     );
-
-    // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
 
     return output;
 }
