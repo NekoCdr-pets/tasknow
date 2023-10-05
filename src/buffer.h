@@ -22,6 +22,6 @@ struct Buffer {
     std::unique_ptr<unsigned char[]> data;
 };
 
-} // end namespace tasknow
+} // namespace tasknow
 
 #endif // TASKNOW_BUFFER_H
