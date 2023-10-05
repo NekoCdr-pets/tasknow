@@ -18,7 +18,7 @@
 namespace tasknow {
 
 struct Buffer {
-    Size_t size;
+    D_size_t size;
     std::unique_ptr<unsigned char[]> data;
 };
 

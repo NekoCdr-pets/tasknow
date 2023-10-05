@@ -16,8 +16,8 @@
 
 namespace tasknow {
 
-using Size_t = int16_t;
-constexpr const std::size_t SizeofST{sizeof(Size_t)};
+using D_size_t = int16_t;
+constexpr const std::size_t BytesForSize{sizeof(D_size_t)};
 
 } // namespace tasknow
 
