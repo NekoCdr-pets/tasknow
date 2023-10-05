@@ -48,13 +48,8 @@ auto serialize(Task* input) -> Buffer
 
     auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
 
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
-
     memcpy(buff.get() + offsets[0], &title_size, SizeofST);
     memcpy(buff.get() + offsets[1], input->title.data(), title_size);
-
-    #pragma GCC diagnostic pop
 
     output.size = static_cast<Size_t>(raw_data_size);
     output.data = std::move(buff);
