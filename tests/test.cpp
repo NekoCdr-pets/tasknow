@@ -23,7 +23,7 @@ namespace tn = tasknow;
 // NOLINTNEXTLINE
 int main()
 {
-    "task_[un]serializer"_test = [] {
+    "task_(un)serializer"_test = [] {
         std::string str{"abc"};
         tn::Task task{str};
 
