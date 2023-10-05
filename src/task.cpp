@@ -67,7 +67,8 @@ auto unserialize(Buffer* input) -> Task
     offset += SizeofST;
 
     output.title.assign(
-        reinterpret_cast<const char*>(input->data.get()) + offset, // NOLINT
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
+        reinterpret_cast<const char*>(input->data.get()) + offset,
         title_size
     );
 
