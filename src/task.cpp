@@ -48,7 +48,6 @@ auto serialize(Task* input) -> Buffer
 
     auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
 
-    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 
@@ -56,7 +55,6 @@ auto serialize(Task* input) -> Buffer
     memcpy(buff.get() + offsets[1], input->title.data(), title_size);
 
     #pragma GCC diagnostic pop
-    // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
     output.size = static_cast<Size_t>(raw_data_size);
     output.data = std::move(buff);
@@ -70,7 +68,6 @@ auto unserialize(Buffer* input) -> Task
     std::size_t title_size{};
     std::size_t offset{0};
 
-    // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
     // NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast)
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
@@ -85,7 +82,6 @@ auto unserialize(Buffer* input) -> Task
 
     #pragma GCC diagnostic pop
     // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast)
-    // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
     return output;
 }
