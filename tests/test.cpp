@@ -14,6 +14,7 @@
 
 #include <boost/ut.hpp>
 
+#include <cstddef>
 #include <string>
 
 using namespace boost::ut;
@@ -27,7 +28,7 @@ int main()
         std::string str{"abc"};
         tn::Task task{str};
 
-        std::size_t buff_size{tn::BytesForSize + str.size()};
+        std::ptrdiff_t buff_size{tn::BytesForSize + std::ssize(str)};
 
         tn::Buffer serialized_task = tn::serialize(&task);
         tn::Task unserialized_task = tn::unserialize(&serialized_task);
