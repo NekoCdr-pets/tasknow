@@ -38,18 +38,24 @@ auto Task::operator!=(const Task& right) const -> bool
 auto serialize(Task* input) -> Buffer
 {
     Buffer output{};
-    std::size_t title_size = input->title.size();
+    std::ptrdiff_t title_size = std::ssize(input->title);
 
-    std::size_t raw_data_size{BytesForSize + title_size};
-    std::size_t offsets[2]{
+    std::ptrdiff_t raw_data_size{BytesForSize + title_size};
+    std::ptrdiff_t offsets[2]{
         0,
         BytesForSize,
     };
 
-    auto buff{std::make_unique<unsigned char[]>(raw_data_size)};
+    auto buff{std::make_unique<unsigned char[]>(
+        static_cast<std::size_t>(raw_data_size)
+    )};
 
     memcpy(buff.get() + offsets[0], &title_size, BytesForSize);
-    memcpy(buff.get() + offsets[1], input->title.data(), title_size);
+    memcpy(
+        buff.get() + offsets[1],
+        input->title.data(),
+        static_cast<std::size_t>(title_size)
+    );
 
     output.size = static_cast<D_size_t>(raw_data_size);
     output.data = std::move(buff);
@@ -60,8 +66,8 @@ auto serialize(Task* input) -> Buffer
 auto unserialize(Buffer* input) -> Task
 {
     Task output{};
-    std::size_t title_size{};
-    std::size_t offset{0};
+    std::ptrdiff_t title_size{};
+    std::ptrdiff_t offset{0};
 
     memcpy(&title_size, input->data.get() + offset, BytesForSize);
     offset += BytesForSize;
@@ -69,7 +75,7 @@ auto unserialize(Buffer* input) -> Task
     output.title.assign(
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         reinterpret_cast<const char*>(input->data.get()) + offset,
-        title_size
+        static_cast<std::size_t>(title_size)
     );
 
     return output;
