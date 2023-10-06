@@ -7,6 +7,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(FETCHCONTENT_QUIET OFF)
 
+find_package(Boost 1.81 COMPONENTS program_options REQUIRED)
+
 add_library(libtasknow OBJECT
     src/buffer.h
     src/defines.h
@@ -20,6 +22,7 @@ add_executable(tasknowd
 )
 target_link_libraries(tasknowd PRIVATE libtasknow)
 
+add_subdirectory(src/tasknow-cli)
 add_subdirectory(tests)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
