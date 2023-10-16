@@ -8,8 +8,20 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "serverd.h"
+
+#include <iostream>
+#include <string_view>
+
 // NOLINTNEXTLINE
 int main()
 {
+    try {
+        tasknow::serverd::serve();
+    } catch (const std::string_view& error_msg) {
+        std::cout << error_msg << std::endl;
+        return EXIT_FAILURE;
+    }
+
     return 0;
 }
