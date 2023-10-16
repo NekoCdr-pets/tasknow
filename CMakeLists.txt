@@ -19,6 +19,8 @@ target_include_directories(libtasknow PUBLIC src)
 
 add_executable(tasknowd
     src/main.cpp
+    src/serverd.h
+    src/serverd.cpp
 )
 target_link_libraries(tasknowd PRIVATE libtasknow)
 
