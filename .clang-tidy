@@ -12,6 +12,7 @@ Checks: >
   -*-avoid-c-arrays,
   -cppcoreguidelines-pro-bounds-pointer-arithmetic,
   -misc-non-private-member-variables-in-classes,
+  -performance-avoid-endl
 
 CheckOptions:
   - key:             readability-identifier-naming.ClassCase
@@ -25,6 +26,8 @@ CheckOptions:
   - key:             readability-identifier-naming.MemberCase
     value:           lower_case
   - key:             readability-identifier-naming.ParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantParameterCase
     value:           lower_case
   - key:             readability-identifier-naming.UnionCase
     value:           Leading_upper_snake_case
