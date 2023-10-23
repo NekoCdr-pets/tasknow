@@ -28,16 +28,16 @@ auto init(
     struct sockaddr_un* server_addr,
     struct sockaddr_un* client_addr,
     socklen_t addr_len,
-    const char* sock_path
+    std::string_view sock_path
 ) -> void {
     memset(server_addr, 0, addr_len);
     server_addr->sun_family = AF_UNIX;\
     // TODO: add check for sock_path length
-    strcpy(static_cast<char*>(server_addr->sun_path), sock_path);
+    strcpy(static_cast<char*>(server_addr->sun_path), sock_path.data());
 
     memset(client_addr, 0, addr_len);
 
-    if (std::remove(sock_path) == ErrorCode && errno != ENOENT) {
+    if (std::remove(sock_path.data()) == ErrorCode && errno != ENOENT) {
         throw std::string_view{"Can't delete socket file"};
     }
 }
@@ -139,7 +139,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
     }
 }
 
-auto serve(const char* sock_path, const int backlog_size) -> void
+auto serve(std::string_view sock_path, const int backlog_size) -> void
 {
     int server_sock{ErrorCode};
     int client_sock{ErrorCode};

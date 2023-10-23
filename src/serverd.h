@@ -13,6 +13,7 @@
 
 #include "defines.h"
 
+#include <string_view>
 #include <sys/socket.h>
 #include <sys/un.h>
 
@@ -22,7 +23,7 @@ auto init(
     struct sockaddr_un* server_addr,
     struct sockaddr_un* client_addr,
     socklen_t addr_len,
-    const char* sock_path
+    std::string_view sock_path
 ) -> void;
 auto create_socket(int* server_sock) -> void;
 auto bind_socket(
@@ -47,7 +48,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void;
 
 [[noreturn]]
 auto serve(
-    const char* sock_path = DaemonSockPath,
+    std::string_view sock_path = DaemonSockPath,
     const int backlog_size = DaemonBacklogSize
 ) -> void;
 

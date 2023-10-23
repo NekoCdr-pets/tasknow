@@ -13,6 +13,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string_view>
 
 namespace tasknow {
 
@@ -21,7 +22,7 @@ constexpr const std::ptrdiff_t BytesForSize{sizeof(D_size_t)};
 
 inline constexpr const int ErrorCode{-1};
 
-constexpr const char* DaemonSockPath{"/tmp/tasknowd.socket"};
+constexpr const std::string_view DaemonSockPath{"/tmp/tasknowd.socket"};
 inline constexpr const int DaemonBacklogSize{10};
 
 enum class Query_method: D_size_t
