@@ -49,7 +49,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void;
 [[noreturn]]
 auto serve(
     std::string_view sock_path = DaemonSockPath,
-    const int backlog_size = DaemonBacklogSize
+    int backlog_size = DaemonBacklogSize
 ) -> void;
 
 } // namespace tasknow

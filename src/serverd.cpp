@@ -139,7 +139,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
     }
 }
 
-auto serve(std::string_view sock_path, const int backlog_size) -> void
+auto serve(std::string_view sock_path, int backlog_size) -> void
 {
     int server_sock{ErrorCode};
     int client_sock{ErrorCode};
