@@ -42,12 +42,13 @@ auto init(
     }
 }
 
-auto create_socket(int* server_sock) -> void
+auto create_socket() -> int
 {
-    *server_sock = socket(AF_UNIX, SOCK_STREAM, 0);
-    if (*server_sock == ErrorCode) {
+    int server_sock{socket(AF_UNIX, SOCK_STREAM, 0)};
+    if (server_sock == ErrorCode) {
         throw std::string_view{std::format("Socket error: %d", errno)};
     }
+    return server_sock;
 }
 
 auto bind_socket(
@@ -141,16 +142,16 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
 
 auto serve(std::string_view sock_path, int backlog_size) -> void
 {
-    int server_sock{ErrorCode};
-    int client_sock{ErrorCode};
-
     struct sockaddr_un server_addr{};
     struct sockaddr_un client_addr{};
 
     socklen_t addr_len{sizeof(struct sockaddr_un)};
 
     init(&server_addr, &client_addr, addr_len, sock_path);
-    create_socket(&server_sock);
+
+    int server_sock{create_socket()};
+    int client_sock{ErrorCode};
+
     try {
         bind_socket(&server_sock, &server_addr, addr_len);
         listen_socket(&server_sock, backlog_size);

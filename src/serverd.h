@@ -26,7 +26,7 @@ auto init(
     std::string_view sock_path
 ) -> void;
 
-auto create_socket(int* server_sock) -> void;
+auto create_socket() -> int;
 
 auto bind_socket(
     int* server_sock,
