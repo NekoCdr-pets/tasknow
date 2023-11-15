@@ -22,6 +22,8 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+using namespace std::literals;
+
 namespace tasknow::serverd {
 
 auto init(
@@ -38,7 +40,7 @@ auto init(
     memset(client_addr, 0, addr_len);
 
     if (std::remove(sock_path.data()) == ErrorCode && errno != ENOENT) {
-        throw std::string_view{"Can't delete socket file"};
+        throw "Can't delete socket file"sv;
     }
 }
 
@@ -86,7 +88,7 @@ auto accept_client(
         addr_len
     );
     if (*client_sock == ErrorCode) {
-        throw std::string_view{"Can't accept client"};
+        throw "Can't accept client"sv;
     }
 }
 
@@ -115,7 +117,7 @@ auto recieve_method(int* client_sock) -> Query_method
         BytesForSize,
         0
     ) == ErrorCode) {
-        throw std::string_view{"Can't get request method"};
+        throw "Can't get request method"sv;
     }
     return query_method;
 }
@@ -126,7 +128,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
         query_method < Query_method::EnumStart
         || query_method >= Query_method::EnumEnd
     ) {
-        throw std::string_view{"Unknown query method"};
+        throw "Unknown query method"sv;
     }
     // TODO: call matching method
 
@@ -136,7 +138,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
         BytesForSize,
         0
     ) == ErrorCode) {
-        throw std::string_view{"Can't send answer"};
+        throw "Can't send answer"sv;
     }
 }
 
