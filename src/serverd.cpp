@@ -16,6 +16,8 @@
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
+#include <format>
+#include <iterator>
 #include <string>
 #include <string_view>
 #include <sys/socket.h>
@@ -34,7 +36,13 @@ auto init(
 ) -> void {
     memset(server_addr, 0, addr_len);
     server_addr->sun_family = AF_UNIX;
-    // TODO: add check for sock_path length
+
+    int max_sock_path_length = sizeof(sockaddr_un::sun_path) / sizeof(char);
+    if (std::ssize(sock_path) > max_sock_path_length) {
+        throw errors::UnrecoverableApplicationError{
+            std::format("Max sock_path lenght is {}", max_sock_path_length)
+        };
+    }
     strcpy(static_cast<char*>(server_addr->sun_path), sock_path.data());
 
     memset(client_addr, 0, addr_len);
