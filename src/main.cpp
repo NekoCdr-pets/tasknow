@@ -8,6 +8,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "errors.h"
 #include "serverd.h"
 
 #include <iostream>
@@ -18,8 +19,11 @@ int main()
 {
     try {
         tasknow::serverd::serve();
-    } catch (const std::string_view& error_msg) {
-        std::cout << error_msg << std::endl;
+    } catch (tasknow::errors::LinuxError& error) {
+        tasknow::errors::log_error_to_stdout(error);
+        return EXIT_FAILURE;
+    } catch (tasknow::errors::ApplicationError& error) {
+        tasknow::errors::log_error_to_stdout(error);
         return EXIT_FAILURE;
     }
 
