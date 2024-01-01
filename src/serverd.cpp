@@ -104,12 +104,12 @@ auto accept_client(
     sockaddr_un* client_addr,
     socklen_t* addr_len
 ) -> int {
-    int client_sock{};
     while (true) {
+        int client_sock{};
         client_sock = accept(
             *server_sock,
             // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-            reinterpret_cast<struct sockaddr*>(client_addr),
+            reinterpret_cast<sockaddr*>(client_addr),
             addr_len
         );
 
