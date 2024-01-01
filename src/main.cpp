@@ -8,8 +8,24 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "errors.h"
+#include "serverd.h"
+
+#include <iostream>
+#include <string_view>
+
 // NOLINTNEXTLINE
 int main()
 {
+    try {
+        tasknow::serverd::serve();
+    } catch (tasknow::errors::LinuxError& error) {
+        tasknow::errors::log_error_to_stdout(error);
+        return EXIT_FAILURE;
+    } catch (tasknow::errors::ApplicationError& error) {
+        tasknow::errors::log_error_to_stdout(error);
+        return EXIT_FAILURE;
+    }
+
     return 0;
 }

@@ -12,6 +12,7 @@ find_package(Boost 1.81 COMPONENTS program_options REQUIRED)
 add_library(libtasknow OBJECT
     src/buffer.h
     src/defines.h
+    src/errors.h
     src/task.h
     src/task.cpp
 )
@@ -19,6 +20,8 @@ target_include_directories(libtasknow PUBLIC src)
 
 add_executable(tasknowd
     src/main.cpp
+    src/serverd.h
+    src/serverd.cpp
 )
 target_link_libraries(tasknowd PRIVATE libtasknow)
 
