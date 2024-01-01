@@ -29,8 +29,8 @@ using namespace std::literals;
 namespace tasknow::serverd {
 
 auto init(
-    struct sockaddr_un* server_addr,
-    struct sockaddr_un* client_addr,
+    sockaddr_un* server_addr,
+    sockaddr_un* client_addr,
     socklen_t addr_len,
     std::string_view sock_path
 ) -> void {
@@ -71,13 +71,13 @@ auto create_socket() -> int
 
 auto bind_socket(
     int* server_sock,
-    struct sockaddr_un* server_addr,
+    sockaddr_un* server_addr,
     socklen_t addr_len
 ) -> void {
     if (bind(
         *server_sock,
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        reinterpret_cast<struct sockaddr*>(server_addr),
+        reinterpret_cast<sockaddr*>(server_addr),
         addr_len
     ) == ErrorCode) {
         throw errors::UnrecoverableLinuxError{
@@ -101,7 +101,7 @@ auto listen_socket(int* server_sock, const int backlog_size) -> void
 
 auto accept_client(
     int* server_sock,
-    struct sockaddr_un* client_addr,
+    sockaddr_un* client_addr,
     socklen_t* addr_len
 ) -> int {
     int client_sock{};
@@ -161,13 +161,13 @@ auto accept_client(
 
 auto get_peer_name(
     int* client_sock,
-    struct sockaddr_un* client_addr,
+    sockaddr_un* client_addr,
     socklen_t* addr_len
 ) -> std::string {
     if (getpeername(
         *client_sock,
         // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
-        reinterpret_cast<struct sockaddr*>(client_addr),
+        reinterpret_cast<sockaddr*>(client_addr),
         addr_len
     ) == ErrorCode) {
         switch (errno) {
@@ -293,10 +293,10 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
 
 auto serve(std::string_view sock_path, int backlog_size) -> void
 {
-    struct sockaddr_un server_addr{};
-    struct sockaddr_un client_addr{};
+    sockaddr_un server_addr{};
+    sockaddr_un client_addr{};
 
-    socklen_t addr_len{sizeof(struct sockaddr_un)};
+    socklen_t addr_len{sizeof(sockaddr_un)};
 
     init(&server_addr, &client_addr, addr_len, sock_path);
 
