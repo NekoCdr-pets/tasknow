@@ -34,7 +34,7 @@ auto bind_socket(
     socklen_t addr_len
 ) -> void;
 
-auto listen_socket(int* server_sock, const int backlog_size) -> void;
+auto listen_socket(int* server_sock, int backlog_size) -> void;
 
 auto accept_client(
     int* server_sock,

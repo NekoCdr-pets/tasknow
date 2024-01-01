@@ -88,7 +88,7 @@ auto bind_socket(
     }
 }
 
-auto listen_socket(int* server_sock, const int backlog_size) -> void
+auto listen_socket(int* server_sock, int backlog_size) -> void
 {
     if (listen(*server_sock, backlog_size) == ErrorCode) {
         throw errors::UnrecoverableLinuxError{
