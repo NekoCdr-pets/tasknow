@@ -16,6 +16,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
+#include <limits>
 #include <memory>
 #include <utility>
 
@@ -39,6 +40,13 @@ auto serialize(Task* input) -> Buffer
 {
     Buffer output{};
     std::ptrdiff_t title_size = std::ssize(input->title);
+
+    if (
+        title_size < std::numeric_limits<D_size_t>::min()
+        || title_size > std::numeric_limits<D_size_t>::max()
+    ) {
+        // TODO: throw exception
+    }
 
     std::ptrdiff_t raw_data_size{BytesForSize + title_size};
     std::ptrdiff_t offset{0};
