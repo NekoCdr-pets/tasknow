@@ -1,4 +1,4 @@
-//===--- task.cpp - Task struct and [un]serializer ------------------------===//
+//===--- task.cpp - Task struct and [de]serializer ------------------------===//
 //
 // Copyright (c) 2023 Yuri Istomin
 //
@@ -63,7 +63,7 @@ auto serialize(Task* input) -> Buffer
     return output;
 }
 
-auto unserialize(Buffer* input) -> Task
+auto deserialize(Buffer* input) -> Task
 {
     Task output{};
     std::ptrdiff_t title_size{};
