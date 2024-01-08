@@ -21,12 +21,12 @@ using namespace std::literals;
 
 namespace tasknow::errors {
 
-struct ApplicationError{
+struct ProtocolError{
     std::string message{};
 };
 
-struct UnrecoverableApplicationError: ApplicationError {};
-struct WarningApplicationError: ApplicationError {};
+struct UnrecoverableProtocolError: ProtocolError {};
+struct WarningProtocolError: ProtocolError {};
 
 struct LinuxError{
     int code{0};
@@ -58,15 +58,15 @@ auto log_error_to_stdout(E error) -> void
     ) << std::endl;
 }
 
-template <typename E> requires std::is_base_of_v<ApplicationError, E>
+template <typename E> requires std::is_base_of_v<ProtocolError, E>
 auto log_error_to_stdout(E error) -> void
 {
     std::string error_level{"OTHER"};
 
-    if constexpr (std::same_as<E, UnrecoverableApplicationError>) {
+    if constexpr (std::same_as<E, UnrecoverableProtocolError>) {
         error_level = "ERROR";
     }
-    if constexpr (std::same_as<E, WarningApplicationError>) {
+    if constexpr (std::same_as<E, WarningProtocolError>) {
         error_level = "WARNING";
     }
 

@@ -39,7 +39,7 @@ auto init(
 
     int max_sock_path_length = sizeof(sockaddr_un::sun_path) / sizeof(char);
     if (std::ssize(sock_path) > max_sock_path_length) {
-        throw errors::UnrecoverableApplicationError{
+        throw errors::UnrecoverableProtocolError{
             std::format("Max sock_path lenght is {}", max_sock_path_length)
         };
     }
@@ -235,7 +235,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
         query_method < Query_method::EnumStart
         || query_method >= Query_method::EnumEnd
     ) {
-        throw errors::WarningApplicationError{
+        throw errors::WarningProtocolError{
             "Unknown query method."
         };
     }
@@ -335,7 +335,7 @@ auto serve(std::string_view sock_path, int backlog_size) -> void
                 close(client_sock);
             }
             throw error;
-        } catch (errors::WarningApplicationError& error) {
+        } catch (errors::WarningProtocolError& error) {
             errors::log_error_to_stdout(error);
             if (client_sock != ErrorCode) {
                 close(client_sock);
