@@ -41,18 +41,17 @@ auto serialize(Task* input) -> Buffer
     std::ptrdiff_t title_size = std::ssize(input->title);
 
     std::ptrdiff_t raw_data_size{BytesForSize + title_size};
-    std::ptrdiff_t offsets[2]{
-        0,
-        BytesForSize,
-    };
+    std::ptrdiff_t offset{0};
 
     auto buff{std::make_unique<unsigned char[]>(
         static_cast<std::size_t>(raw_data_size)
     )};
 
-    memcpy(buff.get() + offsets[0], &title_size, BytesForSize);
+    memcpy(buff.get() + offset, &title_size, BytesForSize);
+    offset += BytesForSize;
+
     memcpy(
-        buff.get() + offsets[1],
+        buff.get() + offset,
         input->title.data(),
         static_cast<std::size_t>(title_size)
     );
