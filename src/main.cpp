@@ -22,7 +22,7 @@ int main()
     } catch (tasknow::errors::LinuxError& error) {
         tasknow::errors::log_error_to_stdout(error);
         return EXIT_FAILURE;
-    } catch (tasknow::errors::ApplicationError& error) {
+    } catch (tasknow::errors::ProtocolError& error) {
         tasknow::errors::log_error_to_stdout(error);
         return EXIT_FAILURE;
     }
