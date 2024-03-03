@@ -12,10 +12,12 @@
 
 #include "buffer.h"
 #include "defines.h"
+#include "errors.h"
 
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
+#include <format>
 #include <limits>
 #include <memory>
 #include <utility>
@@ -41,11 +43,13 @@ auto serialize(Task* input) -> Buffer
     Buffer output{};
     std::ptrdiff_t title_size = std::ssize(input->title);
 
-    if (
-        title_size < std::numeric_limits<D_size_t>::min()
-        || title_size > std::numeric_limits<D_size_t>::max()
-    ) {
-        // TODO: throw exception
+    if (title_size > std::numeric_limits<D_size_t>::max()) {
+        throw errors::WarningProtocolError{
+            std::format(
+                "Max string length for serialization must be <= {}",
+                std::numeric_limits<D_size_t>::max()
+            )
+        };
     }
 
     std::ptrdiff_t raw_data_size{BytesForSize + title_size};
