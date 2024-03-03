@@ -1,4 +1,4 @@
-//===--- task.cpp - Task struct and [un]serializer ------------------------===//
+//===--- task.cpp - Task struct and [de]serializer ------------------------===//
 //
 // Copyright (c) 2023 Yuri Istomin
 //
@@ -12,10 +12,13 @@
 
 #include "buffer.h"
 #include "defines.h"
+#include "errors.h"
 
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
+#include <format>
+#include <limits>
 #include <memory>
 #include <utility>
 
@@ -40,19 +43,27 @@ auto serialize(Task* input) -> Buffer
     Buffer output{};
     std::ptrdiff_t title_size = std::ssize(input->title);
 
+    if (title_size > std::numeric_limits<D_size_t>::max()) {
+        throw errors::WarningProtocolError{
+            std::format(
+                "Max string length for serialization must be <= {}",
+                std::numeric_limits<D_size_t>::max()
+            )
+        };
+    }
+
     std::ptrdiff_t raw_data_size{BytesForSize + title_size};
-    std::ptrdiff_t offsets[2]{
-        0,
-        BytesForSize,
-    };
+    std::ptrdiff_t offset{0};
 
     auto buff{std::make_unique<unsigned char[]>(
         static_cast<std::size_t>(raw_data_size)
     )};
 
-    memcpy(buff.get() + offsets[0], &title_size, BytesForSize);
+    memcpy(buff.get() + offset, &title_size, BytesForSize);
+    offset += BytesForSize;
+
     memcpy(
-        buff.get() + offsets[1],
+        buff.get() + offset,
         input->title.data(),
         static_cast<std::size_t>(title_size)
     );
@@ -63,7 +74,7 @@ auto serialize(Task* input) -> Buffer
     return output;
 }
 
-auto unserialize(Buffer* input) -> Task
+auto deserialize(Buffer* input) -> Task
 {
     Task output{};
     std::ptrdiff_t title_size{};

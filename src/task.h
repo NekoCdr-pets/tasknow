@@ -1,4 +1,4 @@
-//===--- task.h - Task struct and [un]serializer --------------------------===//
+//===--- task.h - Task struct and [de]serializer --------------------------===//
 //
 // Copyright (c) 2023 Yuri Istomin
 //
@@ -25,7 +25,7 @@ struct Task {
 };
 
 auto serialize(Task* input) -> Buffer;
-auto unserialize(Buffer* input) -> Task;
+auto deserialize(Buffer* input) -> Task;
 
 } // namespace tasknow
 
