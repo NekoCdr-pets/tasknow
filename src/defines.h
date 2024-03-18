@@ -17,9 +17,9 @@
 
 namespace tasknow {
 
-using D_size_t = int16_t;
+using Data_size_t = int16_t;
 using Buffer_size_t = int32_t;
-inline constexpr const std::ptrdiff_t BytesForSize{sizeof(D_size_t)};
+inline constexpr const std::ptrdiff_t BytesForSize{sizeof(Data_size_t)};
 
 inline constexpr const int ErrorCode{-1};
 
@@ -27,7 +27,7 @@ inline constexpr const std::string_view DaemonSockPath{"/tmp/tasknowd.socket"};
 inline constexpr const std::string_view CLISockPath{"/tmp/tasknow-cli.socket"};
 inline constexpr const int DaemonBacklogSize{10};
 
-enum class Query_method: D_size_t
+enum class Query_method: Data_size_t
 {
     EnumStart,
 

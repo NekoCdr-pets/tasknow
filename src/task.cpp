@@ -43,11 +43,11 @@ auto serialize(Task* input) -> Buffer<Task>
     Buffer<Task> output{};
     std::ptrdiff_t title_size = std::ssize(input->title);
 
-    if (title_size > std::numeric_limits<D_size_t>::max()) {
+    if (title_size > std::numeric_limits<Data_size_t>::max()) {
         throw errors::WarningProtocolError{
             std::format(
                 "Max string length for serialization must be <= {}",
-                std::numeric_limits<D_size_t>::max()
+                std::numeric_limits<Data_size_t>::max()
             )
         };
     }
