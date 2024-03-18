@@ -24,8 +24,8 @@ struct Task {
     auto operator!=(const Task& right) const -> bool;
 };
 
-auto serialize(Task* input) -> Buffer;
-auto deserialize(Buffer* input) -> Task;
+auto serialize(Task* input) -> Buffer<Task>;
+auto deserialize(Buffer<Task>* input) -> Task;
 
 } // namespace tasknow
 

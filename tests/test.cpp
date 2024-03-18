@@ -30,7 +30,7 @@ int main()
 
         std::ptrdiff_t buff_size{tn::BytesForSize + std::ssize(str)};
 
-        tn::Buffer serialized_task = tn::serialize(&task);
+        tn::Buffer<tn::Task> serialized_task = tn::serialize(&task);
         tn::Task unserialized_task = tn::deserialize(&serialized_task);
 
         expect(serialized_task.size == buff_size);

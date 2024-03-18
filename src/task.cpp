@@ -38,9 +38,9 @@ auto Task::operator!=(const Task& right) const -> bool
     return !(*this == right);
 }
 
-auto serialize(Task* input) -> Buffer
+auto serialize(Task* input) -> Buffer<Task>
 {
-    Buffer output{};
+    Buffer<Task> output{};
     std::ptrdiff_t title_size = std::ssize(input->title);
 
     if (title_size > std::numeric_limits<D_size_t>::max()) {
@@ -74,7 +74,7 @@ auto serialize(Task* input) -> Buffer
     return output;
 }
 
-auto deserialize(Buffer* input) -> Task
+auto deserialize(Buffer<Task>* input) -> Task
 {
     Task output{};
     std::ptrdiff_t title_size{};
