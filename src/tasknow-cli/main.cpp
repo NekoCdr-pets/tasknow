@@ -8,6 +8,9 @@
 //
 //===----------------------------------------------------------------------===//
 
+#include "client.h"
+#include "errors.h"
+
 #include <boost/program_options/options_description.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -31,6 +34,16 @@ int main(int argc, char** argv)
     if (v_map.count("help")) {
         std::cout << desc << '\n';
         return 0;
+    }
+
+    try {
+        tasknow::client::run();
+    } catch (tasknow::errors::LinuxError& error) {
+        tasknow::errors::log_error_to_stdout(error);
+        return EXIT_FAILURE;
+    } catch (tasknow::errors::ProtocolError& error) {
+        tasknow::errors::log_error_to_stdout(error);
+        return EXIT_FAILURE;
     }
 
     return 0;

@@ -23,6 +23,7 @@ inline constexpr const std::ptrdiff_t BytesForSize{sizeof(D_size_t)};
 inline constexpr const int ErrorCode{-1};
 
 inline constexpr const std::string_view DaemonSockPath{"/tmp/tasknowd.socket"};
+inline constexpr const std::string_view CLISockPath{"/tmp/tasknow-cli.socket"};
 inline constexpr const int DaemonBacklogSize{10};
 
 enum class Query_method: D_size_t
