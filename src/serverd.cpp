@@ -40,7 +40,7 @@ auto init(
     int max_sock_path_length = sizeof(sockaddr_un::sun_path) / sizeof(char);
     if (std::ssize(sock_path) > max_sock_path_length) {
         throw errors::UnrecoverableProtocolError{
-            std::format("Max sock_path lenght is {}", max_sock_path_length)
+            std::format("Max sock_path length is {}", max_sock_path_length)
         };
     }
     strcpy(static_cast<char*>(server_addr->sun_path), sock_path.data());
@@ -262,21 +262,21 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
                 case ECONNRESET:
                     throw errors::WarningLinuxError{
                         errno,
-                        "recv(2)",
+                        "send(2)",
                         "Connection reset by peer."
                     };
 
                 case ENOBUFS:
                     throw errors::WarningLinuxError{
                         errno,
-                        "recv(2)",
+                        "send(2)",
                         "The output queue for a network interface was full. This generally indicates that the interface has stopped sending, but may be caused by transient congestion."
                     };
 
                 case EPIPE:
                     throw errors::WarningLinuxError{
                         errno,
-                        "recv(2)",
+                        "send(2)",
                         "The local end has been shut down on a connection oriented socket. In this case, the process will also receive a SIGPIPE unless MSG_NOSIGNAL is set."
                     };
 
