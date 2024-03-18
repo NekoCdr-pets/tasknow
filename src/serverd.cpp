@@ -288,6 +288,7 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
                     };
             }
         }
+        return;
     }
 }
 
