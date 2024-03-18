@@ -68,7 +68,7 @@ auto serialize(Task* input) -> Buffer<Task>
         static_cast<std::size_t>(title_size)
     );
 
-    output.size = static_cast<D_size_t>(raw_data_size);
+    output.size = static_cast<Buffer_size_t>(raw_data_size);
     output.data = std::move(buff);
 
     return output;
