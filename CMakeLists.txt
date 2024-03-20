@@ -17,6 +17,8 @@ add_library(libtasknow OBJECT
     src/task.cpp
     src/task_list.h
     src/task_list.cpp
+    src/request_handler.h
+    src/request_handler.cpp
 )
 target_include_directories(libtasknow PUBLIC src)
 
