@@ -33,7 +33,6 @@ enum class Query_method: Data_size_t
     EnumStart,
 
     GetTaskList,
-    GetTaskDetails,
 
     EnumEnd,
 };
