@@ -20,6 +20,7 @@ namespace tasknow {
 using Data_size_t = int16_t;
 using Buffer_size_t = int32_t;
 inline constexpr const std::ptrdiff_t BytesForSize{sizeof(Data_size_t)};
+inline constexpr const std::ptrdiff_t BytesForBufferSize{sizeof(Buffer_size_t)};
 
 inline constexpr const int ErrorCode{-1};
 
