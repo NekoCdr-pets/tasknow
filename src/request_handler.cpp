@@ -10,8 +10,10 @@
 
 #include "request_handler.h"
 
+#include "buffer.h"
 #include "defines.h"
 #include "errors.h"
+#include "task_list.h"
 
 #include <cerrno>
 #include <cstddef>
@@ -69,6 +71,28 @@ auto send_response(
         }
         return;
     }
+}
+
+auto get_task_list(int* client_sock, Task_list* task_list) -> void
+{
+    Buffer<Task_list> serialized_tasks{serialize(task_list)};
+
+    auto buff{std::make_unique<unsigned char[]>(
+        static_cast<std::size_t>(serialized_tasks.size + BytesForBufferSize)
+    )};
+
+    memcpy(buff.get(), &serialized_tasks.size, BytesForBufferSize);
+    memcpy(
+        buff.get() + BytesForBufferSize,
+        serialized_tasks.data.get(),
+        static_cast<std::size_t>(serialized_tasks.size)
+    );
+
+    send_response(
+        client_sock,
+        buff.get(),
+        static_cast<std::size_t>(serialized_tasks.size) + BytesForBufferSize
+    );
 }
 
 } // namespace tasknow::request_handler
