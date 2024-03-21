@@ -12,7 +12,6 @@
 
 #include "defines.h"
 #include "errors.h"
-#include "task_list.h"
 
 #include <cerrno>
 #include <cstdio>
@@ -264,8 +263,6 @@ auto serve(std::string_view sock_path, int backlog_size) -> void
         }
         throw error;
     }
-
-    Task_list task_list{};
 
     while (true) {
         try {
