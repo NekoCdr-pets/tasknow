@@ -9,6 +9,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "client.h"
+#include "defines.h"
 #include "errors.h"
 
 #include <boost/program_options/options_description.hpp>
@@ -37,7 +38,8 @@ int main(int argc, char** argv)
     }
 
     try {
-        tasknow::client::run();
+        tasknow::Query_method query_method{tasknow::Query_method::GetTaskList};
+        tasknow::client::run(query_method);
     } catch (tasknow::errors::LinuxError& error) {
         tasknow::errors::log_error_to_stdout(error);
         return EXIT_FAILURE;
