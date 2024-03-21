@@ -12,6 +12,7 @@
 #define TASKNOW_SERVERD_H
 
 #include "defines.h"
+#include "task_list.h"
 
 #include <string_view>
 #include <sys/socket.h>
@@ -50,7 +51,11 @@ auto get_peer_name(
 
 auto recieve_method(int* client_sock) -> Query_method;
 
-auto handle_request(int* client_sock, Query_method query_method) -> void;
+auto handle_request(
+    int* client_sock,
+    Query_method query_method,
+    Task_list* task_list
+) -> void;
 
 [[noreturn]]
 auto serve(
