@@ -14,20 +14,19 @@
 #include "errors.h"
 
 #include <cerrno>
+#include <cstddef>
 #include <cstring>
 #include <sys/socket.h>
 
 namespace tasknow::request_handler {
 
-auto send_response(int* client_sock, Query_method query_method) -> void
-{
+auto send_response(
+    int* client_sock,
+    unsigned char* buff,
+    const std::size_t size
+) -> void {
     for (int i=1; i<=3; i++) {
-        if (send(
-            *client_sock,
-            &query_method,
-            BytesForSize,
-            0
-        ) == ErrorCode) {
+        if (send(*client_sock, buff, size, 0) == ErrorCode) {
             switch (errno) {
                 case EINTR:
                     if (i==3) {

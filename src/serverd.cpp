@@ -12,7 +12,6 @@
 
 #include "defines.h"
 #include "errors.h"
-#include "request_handler.h"
 #include "task_list.h"
 
 #include <cerrno>
@@ -279,7 +278,6 @@ auto serve(std::string_view sock_path, int backlog_size) -> void
             Query_method query_method{recieve_method(&client_sock)};
 
             handle_request(&client_sock, query_method);
-            request_handler::send_response(&client_sock, query_method);
         } catch (errors::WarningLinuxError& error) {
             errors::log_error_to_stdout(error);
             if (client_sock != ErrorCode) {

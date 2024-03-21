@@ -270,10 +270,10 @@ auto send_request(int* client_sock) -> void
 
 auto get_answer(int* client_sock) -> void
 {
-    Query_method answer{};
+    Buffer_size_t buff_size{};
 
     for (int i=1; i<=3; i++) {
-        if (recv(*client_sock, &answer, BytesForSize, 0) == ErrorCode) {
+        if (recv(*client_sock, &buff_size, BytesForBufferSize, 0) == ErrorCode) {
             switch (errno) {
                 case EINTR:
                     if (i==3) {
@@ -301,7 +301,7 @@ auto get_answer(int* client_sock) -> void
             }
         } else {
             std::cout
-                << std::format("DATA RECEIVED = {}", static_cast<int>(answer))
+                << std::format("Received {} bytes", buff_size)
                 << std::endl;
             return;
         }

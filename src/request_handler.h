@@ -11,11 +11,15 @@
 #ifndef TASKNOW_REQUEST_HANDLER_H
 #define TASKNOW_REQUEST_HANDLER_H
 
-#include "defines.h"
+#include <cstddef>
 
 namespace tasknow::request_handler {
 
-auto send_response(int* client_sock, Query_method query_method) -> void;
+auto send_response(
+    int* client_sock,
+    unsigned char* buff,
+    const std::size_t size
+) -> void;
 
 } // namespace tasknow::request_handler
 
