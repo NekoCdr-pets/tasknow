@@ -12,6 +12,7 @@
 
 #include "defines.h"
 #include "errors.h"
+#include "request_handler.h"
 #include "task_list.h"
 
 #include <cerrno>
@@ -230,8 +231,11 @@ auto recieve_method(int* client_sock) -> Query_method
     }
 }
 
-auto handle_request(int* client_sock, Query_method query_method) -> void
-{
+auto handle_request(
+    int* client_sock,
+    Query_method query_method,
+    Task_list* task_list
+) -> void {
     if (
         query_method < Query_method::EnumStart
         || query_method >= Query_method::EnumEnd
@@ -241,6 +245,15 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
         };
     }
     // TODO: call matching method
+    switch (query_method) {
+        case Query_method::GetTaskList:
+            request_handler::get_task_list(client_sock, task_list);
+            break;
+        default:
+            throw errors::WarningProtocolError{
+                "Unavailable query method."
+            };
+    }
 }
 
 auto serve(std::string_view sock_path, int backlog_size) -> void
@@ -277,7 +290,7 @@ auto serve(std::string_view sock_path, int backlog_size) -> void
 
             Query_method query_method{recieve_method(&client_sock)};
 
-            handle_request(&client_sock, query_method);
+            handle_request(&client_sock, query_method, &task_list);
         } catch (errors::WarningLinuxError& error) {
             errors::log_error_to_stdout(error);
             if (client_sock != ErrorCode) {
