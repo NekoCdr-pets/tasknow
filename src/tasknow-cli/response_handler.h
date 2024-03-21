@@ -22,6 +22,8 @@ auto receive_data(
     const std::size_t size
 ) -> ssize_t;
 
+auto get_task_list(int* client_sock) -> void;
+
 } // namespace tasknow::response_handler
 
 #endif // TASKNOW_RESPONSE_HANDLER_H
