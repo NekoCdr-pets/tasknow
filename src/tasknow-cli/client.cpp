@@ -12,6 +12,7 @@
 
 #include "defines.h"
 #include "errors.h"
+#include "response_handler.h"
 
 #include <cerrno>
 #include <cstdio>
@@ -20,6 +21,8 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
+
+using namespace tasknow::response_handler;
 
 namespace tasknow::client {
 
@@ -270,42 +273,16 @@ auto send_request(int* client_sock) -> void
 
 auto get_answer(int* client_sock) -> void
 {
-    Query_method answer{};
+    Buffer_size_t buff_size{};
+    Buffer_size_t response_length{0};
 
-    for (int i=1; i<=3; i++) {
-        if (recv(*client_sock, &answer, BytesForSize, 0) == ErrorCode) {
-            switch (errno) {
-                case EINTR:
-                    if (i==3) {
-                        throw errors::UnrecoverableLinuxError{
-                            errno,
-                            "recv(2)",
-                            "The receive was interrupted by delivery of a signal before any data was available."
-                        };
-                    }
-                    continue;
+    response_length += static_cast<Buffer_size_t>(
+        receive_data(client_sock, &buff_size, BytesForBufferSize)
+    );
 
-                case ECONNREFUSED:
-                    throw errors::UnrecoverableLinuxError{
-                        errno,
-                        "recv(2)",
-                        "A remote host refused to allow the network connection (typically because it is not running the requested service)."
-                    };
-
-                default:
-                    throw errors::UnrecoverableLinuxError{
-                        errno,
-                        "recv(2)",
-                        std::strerror(errno) // NOLINT(concurrency-mt-unsafe)
-                    };
-            }
-        } else {
-            std::cout
-                << std::format("DATA RECEIVED = {}", static_cast<int>(answer))
-                << std::endl;
-            return;
-        }
-    }
+    std::cout
+        << std::format("Received {} bytes", response_length)
+        << std::endl;
 }
 
 auto run(

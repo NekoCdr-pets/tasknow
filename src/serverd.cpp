@@ -240,56 +240,6 @@ auto handle_request(int* client_sock, Query_method query_method) -> void
         };
     }
     // TODO: call matching method
-
-    for (int i=1; i<=3; i++) {
-        if (send(
-            *client_sock,
-            &query_method,
-            BytesForSize,
-            0
-        ) == ErrorCode) {
-            switch (errno) {
-                case EINTR:
-                    if (i==3) {
-                        throw errors::WarningLinuxError{
-                            errno,
-                            "send(2)",
-                            "A signal occurred before any data was transmitted."
-                        };
-                    }
-                    continue;
-
-                case ECONNRESET:
-                    throw errors::WarningLinuxError{
-                        errno,
-                        "send(2)",
-                        "Connection reset by peer."
-                    };
-
-                case ENOBUFS:
-                    throw errors::WarningLinuxError{
-                        errno,
-                        "send(2)",
-                        "The output queue for a network interface was full. This generally indicates that the interface has stopped sending, but may be caused by transient congestion."
-                    };
-
-                case EPIPE:
-                    throw errors::WarningLinuxError{
-                        errno,
-                        "send(2)",
-                        "The local end has been shut down on a connection oriented socket. In this case, the process will also receive a SIGPIPE unless MSG_NOSIGNAL is set."
-                    };
-
-                default:
-                    throw errors::UnrecoverableLinuxError{
-                        errno,
-                        "send(2)",
-                        std::strerror(errno) // NOLINT(concurrency-mt-unsafe)
-                    };
-            }
-        }
-        return;
-    }
 }
 
 auto serve(std::string_view sock_path, int backlog_size) -> void
