@@ -1,4 +1,4 @@
-//===--- request_handler.h - Tasknow request hadler for server daemon -----===//
+//===--- request_handler.h - Tasknow request handler for server daemon ----===//
 //
 // Copyright (c) 2024 Yuri Istomin
 //
