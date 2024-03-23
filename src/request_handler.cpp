@@ -13,12 +13,15 @@
 #include "buffer.h"
 #include "defines.h"
 #include "errors.h"
+#include "task.h"
 #include "task_list.h"
 
 #include <cerrno>
 #include <cstddef>
 #include <cstring>
+#include <memory>
 #include <sys/socket.h>
+#include <utility>
 
 namespace tasknow::request_handler {
 
@@ -131,6 +134,39 @@ auto get_task_list(int* client_sock, Task_list* task_list) -> void
         buff.get(),
         static_cast<std::size_t>(serialized_tasks.size) + BytesForBufferSize
     );
+}
+
+auto create_new_task(int* client_sock, Task_list* task_list) -> void
+{
+    Buffer_size_t buff_size{};
+    Buffer_size_t request_length{};
+
+    request_length += static_cast<Buffer_size_t>(
+        receive_data(client_sock, &buff_size, BytesForBufferSize)
+    );
+
+    Buffer<Task> serialized_task{};
+    auto buff{std::make_unique<unsigned char[]>(
+        static_cast<std::size_t>(buff_size)
+    )};
+    serialized_task.size = buff_size;
+    serialized_task.data = std::move(buff);
+
+    request_length += static_cast<Buffer_size_t>(
+        receive_data(
+            client_sock,
+            serialized_task.data.get(),
+            static_cast<std::size_t>(buff_size)
+        )
+    );
+
+    if (buff_size + BytesForBufferSize != request_length) {
+        throw errors::WarningProtocolError{
+            "Estimated buffer size does not match the received buffer size."
+        };
+    }
+
+    task_list->container.push_back(deserialize(&serialized_task));
 }
 
 } // namespace tasknow::request_handler

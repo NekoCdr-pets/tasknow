@@ -222,6 +222,9 @@ auto handle_request(
         case Query_method::GetTaskList:
             request_handler::get_task_list(client_sock, task_list);
             break;
+        case Query_method::CreateNewTask:
+            request_handler::create_new_task(client_sock, task_list);
+            break;
         default:
             throw errors::WarningProtocolError{
                 "Unavailable query method."

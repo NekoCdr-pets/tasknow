@@ -31,6 +31,8 @@ auto send_response(
 
 auto get_task_list(int* client_sock, Task_list* task_list) -> void;
 
+auto create_new_task(int* client_sock, Task_list* task_list) -> void;
+
 } // namespace tasknow::request_handler
 
 #endif // TASKNOW_REQUEST_HANDLER_H
