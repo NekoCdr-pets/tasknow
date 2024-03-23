@@ -11,11 +11,14 @@
 #include "client.h"
 
 #include "actions.h"
+#include "buffer.h"
 #include "defines.h"
 #include "errors.h"
+#include "request_creator.h"
 #include "response_handler.h"
 
 #include <cerrno>
+#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <sys/socket.h>
@@ -221,10 +224,15 @@ auto connect_server(
     }
 }
 
-auto send_request(int* client_sock, Query_method query_method) -> void
+auto send_request(int* client_sock, Buffer<void>* request) -> void
 {
     for (int i=1; i<=3; i++) {
-        if (send(*client_sock, &query_method, BytesForSize, 0) == ErrorCode) {
+        if (send(
+            *client_sock,
+            request->data.get(),
+            static_cast<std::size_t>(request->size),
+            0
+        ) == ErrorCode) {
             switch (errno) {
                 case EINTR:
                     if (i==3) {
@@ -299,8 +307,11 @@ auto run(
     try {
         bind_socket(&client_sock, &client_addr, addr_len);
         connect_server(&client_sock, &server_addr, addr_len);
-        send_request(&client_sock, query_method);
+
+        Buffer<void> request{cli::prepare_request(query_method)};
+        send_request(&client_sock, &request);
         handle_response(&client_sock, query_method);
+
         close(client_sock);
     } catch (errors::LinuxError& error) {
         if (client_sock != ErrorCode) {
