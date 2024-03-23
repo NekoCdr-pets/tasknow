@@ -28,6 +28,10 @@ inline constexpr const std::string_view DaemonSockPath{"/tmp/tasknowd.socket"};
 inline constexpr const std::string_view CLISockPath{"/tmp/tasknow-cli.socket"};
 inline constexpr const int DaemonBacklogSize{10};
 
+inline constexpr const std::string_view CLIOutputSeparator{
+    "******************************************************"
+};
+
 enum class Query_method: Data_size_t
 {
     EnumStart,
