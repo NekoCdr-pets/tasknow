@@ -17,6 +17,8 @@ namespace tasknow::cli {
 
 auto request_task_list(Query_method query_method) -> Buffer<void>;
 
+auto request_new_task_creating(Query_method query_method) -> Buffer<void>;
+
 auto prepare_request(Query_method query_method) -> Buffer<void>;
 
 } // namespace tasknow::cli

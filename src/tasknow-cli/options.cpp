@@ -32,6 +32,9 @@ auto O_method::operator()() -> Query_method
     if (method.compare("list") == 0) {
         return Query_method::GetTaskList;
     }
+    if (method.compare("add") == 0) {
+        return Query_method::CreateNewTask;
+    }
     return Query_method::EnumEnd;
 }
 
@@ -43,6 +46,7 @@ auto validate(
 ) -> void {
     std::unordered_set<std::string> available_values{
         "list",
+        "add",
     };
 
     po::validators::check_first_occurrence(value_storage);

@@ -16,6 +16,7 @@
 
 #include <format>
 #include <iostream>
+#include <string>
 
 namespace tasknow::cli {
 
@@ -34,6 +35,14 @@ auto print_task_list(Task_list tasks) -> void
         << std::format("{} tasks printed\n", tasks.container.size())
         << std::endl
     ;
+}
+
+auto create_new_task() -> Task
+{
+    Task task{};
+    std::cout << "Enter the task title:" << std::endl;
+    std::getline(std::cin, task.title);
+    return task;
 }
 
 } // namespace tasknow::cli
