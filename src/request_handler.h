@@ -17,6 +17,12 @@
 
 namespace tasknow::request_handler {
 
+auto receive_data(
+    int* client_sock,
+    void* buff,
+    const std::size_t size
+) -> ssize_t;
+
 auto send_response(
     int* client_sock,
     unsigned char* buff,

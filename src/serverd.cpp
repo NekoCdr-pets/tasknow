@@ -199,36 +199,9 @@ auto recieve_method(int* client_sock) -> Query_method
 {
     Query_method query_method{Query_method::EnumEnd};
 
-    for (int i=1; i<=3; i++) {
-        if (recv(*client_sock, &query_method, BytesForSize, 0) == ErrorCode) {
-            switch (errno) {
-                case EINTR:
-                    if (i==3) {
-                        throw errors::WarningLinuxError{
-                            errno,
-                            "recv(2)",
-                            "The receive was interrupted by delivery of a signal before any data was available."
-                        };
-                    }
-                    continue;
+    request_handler::receive_data(client_sock, &query_method, BytesForSize);
 
-                case ECONNREFUSED:
-                    throw errors::WarningLinuxError{
-                        errno,
-                        "recv(2)",
-                        "A remote host refused to allow the network connection (typically because it is not running the requested service)."
-                    };
-
-                default:
-                    throw errors::UnrecoverableLinuxError{
-                        errno,
-                        "recv(2)",
-                        std::strerror(errno) // NOLINT(concurrency-mt-unsafe)
-                    };
-            }
-        }
-        return query_method;
-    }
+    return query_method;
 }
 
 auto handle_request(
