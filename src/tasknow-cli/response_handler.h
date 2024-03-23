@@ -11,6 +11,8 @@
 #ifndef TASKNOW_RESPONSE_HANDLER_H
 #define TASKNOW_RESPONSE_HANDLER_H
 
+#include "task_list.h"
+
 #include <cstddef>
 #include <sys/types.h>
 
@@ -22,7 +24,7 @@ auto receive_data(
     const std::size_t size
 ) -> ssize_t;
 
-auto get_task_list(int* client_sock) -> void;
+auto get_task_list(int* client_sock) -> Task_list;
 
 } // namespace tasknow::response_handler
 
