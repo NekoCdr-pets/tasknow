@@ -283,6 +283,8 @@ auto handle_response(int* client_sock, Query_method query_method) -> void
         case Query_method::GetTaskList:
             cli::print_task_list(get_task_list(client_sock));
             break;
+        case Query_method::CreateNewTask:
+            return;
         default:
             throw errors::WarningProtocolError{
                 "Unavailable query method."

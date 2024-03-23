@@ -11,11 +11,14 @@
 #ifndef TASKNOW_ACTIONS_H
 #define TASKNOW_ACTIONS_H
 
+#include "task.h"
 #include "task_list.h"
 
 namespace tasknow::cli {
 
 auto print_task_list(Task_list tasks) -> void;
+
+auto create_new_task() -> Task;
 
 } // namespace tasknow::cli
 
