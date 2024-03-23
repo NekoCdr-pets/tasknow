@@ -195,7 +195,7 @@ auto get_peer_name(
     return {client_addr->sun_path};
 }
 
-auto recieve_method(int* client_sock) -> Query_method
+auto get_request_method(int* client_sock) -> Query_method
 {
     Query_method query_method{Query_method::EnumEnd};
 

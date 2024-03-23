@@ -49,7 +49,7 @@ auto get_peer_name(
     socklen_t* addr_len
 ) -> std::string;
 
-auto recieve_method(int* client_sock) -> Query_method;
+auto get_request_method(int* client_sock) -> Query_method;
 
 auto handle_request(
     int* client_sock,
