@@ -264,7 +264,7 @@ auto serve(std::string_view sock_path, int backlog_size) -> void
                 get_peer_name(&client_sock, &client_addr, &addr_len)
             };
 
-            Query_method query_method{recieve_method(&client_sock)};
+            Query_method query_method{get_request_method(&client_sock)};
 
             handle_request(&client_sock, query_method, &task_list);
         } catch (errors::WarningLinuxError& error) {
