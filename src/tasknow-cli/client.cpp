@@ -17,7 +17,6 @@
 #include <cerrno>
 #include <cstdio>
 #include <cstring>
-#include <iostream>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
@@ -221,10 +220,8 @@ auto connect_server(
     }
 }
 
-auto send_request(int* client_sock) -> void
+auto send_request(int* client_sock, Query_method query_method) -> void
 {
-    Query_method query_method{Query_method::GetTaskList};
-
     for (int i=1; i<=3; i++) {
         if (send(*client_sock, &query_method, BytesForSize, 0) == ErrorCode) {
             switch (errno) {
@@ -271,21 +268,21 @@ auto send_request(int* client_sock) -> void
     }
 }
 
-auto get_answer(int* client_sock) -> void
+auto handle_response(int* client_sock, Query_method query_method) -> void
 {
-    Buffer_size_t buff_size{};
-    Buffer_size_t response_length{0};
-
-    response_length += static_cast<Buffer_size_t>(
-        receive_data(client_sock, &buff_size, BytesForBufferSize)
-    );
-
-    std::cout
-        << std::format("Received {} bytes", response_length)
-        << std::endl;
+    switch (query_method) {
+        case Query_method::GetTaskList:
+            get_task_list(client_sock);
+            break;
+        default:
+            throw errors::WarningProtocolError{
+                "Unavailable query method."
+            };
+    }
 }
 
 auto run(
+    Query_method query_method,
     std::string_view server_sock_path,
     std::string_view client_sock_path
 ) -> void {
@@ -301,8 +298,8 @@ auto run(
     try {
         bind_socket(&client_sock, &client_addr, addr_len);
         connect_server(&client_sock, &server_addr, addr_len);
-        send_request(&client_sock);
-        get_answer(&client_sock);
+        send_request(&client_sock, query_method);
+        handle_response(&client_sock, query_method);
         close(client_sock);
     } catch (errors::LinuxError& error) {
         if (client_sock != ErrorCode) {

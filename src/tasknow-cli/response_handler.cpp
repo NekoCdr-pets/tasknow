@@ -16,6 +16,8 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstring>
+#include <format>
+#include <iostream>
 #include <sys/socket.h>
 #include <sys/types.h>
 
@@ -57,6 +59,20 @@ auto receive_data(
         }
         return message_length;
     }
+}
+
+auto get_task_list(int* client_sock) -> void
+{
+    Buffer_size_t buff_size{};
+    Buffer_size_t response_length{0};
+
+    response_length += static_cast<Buffer_size_t>(
+        receive_data(client_sock, &buff_size, BytesForBufferSize)
+    );
+
+    std::cout
+        << std::format("Received {} bytes", response_length)
+        << std::endl;
 }
 
 } // namespace tasknow::response_handler
