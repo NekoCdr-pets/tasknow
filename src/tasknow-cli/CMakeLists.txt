@@ -1,4 +1,6 @@
 add_executable(tasknow-cli
+    actions.h
+    actions.cpp
     client.h
     client.cpp
     main.cpp

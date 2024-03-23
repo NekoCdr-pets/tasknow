@@ -10,16 +10,20 @@
 
 #include "response_handler.h"
 
+#include "buffer.h"
 #include "defines.h"
 #include "errors.h"
+#include "task_list.h"
 
 #include <cerrno>
 #include <cstddef>
 #include <cstring>
 #include <format>
 #include <iostream>
+#include <memory>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <utility>
 
 namespace tasknow::response_handler {
 
@@ -61,7 +65,7 @@ auto receive_data(
     }
 }
 
-auto get_task_list(int* client_sock) -> void
+auto get_task_list(int* client_sock) -> Task_list
 {
     Buffer_size_t buff_size{};
     Buffer_size_t response_length{0};
@@ -70,9 +74,32 @@ auto get_task_list(int* client_sock) -> void
         receive_data(client_sock, &buff_size, BytesForBufferSize)
     );
 
+    Buffer<Task_list> serialized_tasks{};
+    auto buff{std::make_unique<unsigned char[]>(
+        static_cast<std::size_t>(buff_size)
+    )};
+    serialized_tasks.size = buff_size;
+    serialized_tasks.data = std::move(buff);
+
+    response_length += static_cast<Buffer_size_t>(
+        receive_data(
+            client_sock,
+            serialized_tasks.data.get(),
+            static_cast<std::size_t>(buff_size)
+        )
+    );
+
+    if (buff_size + BytesForBufferSize != response_length) {
+        throw errors::UnrecoverableProtocolError{
+            "Estimated buffer size does not match the received buffer size."
+        };
+    }
+
     std::cout
         << std::format("Received {} bytes", response_length)
         << std::endl;
+
+    return deserialize(&serialized_tasks);
 }
 
 } // namespace tasknow::response_handler

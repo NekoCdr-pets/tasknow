@@ -10,6 +10,7 @@
 
 #include "client.h"
 
+#include "actions.h"
 #include "defines.h"
 #include "errors.h"
 #include "response_handler.h"
@@ -272,7 +273,7 @@ auto handle_response(int* client_sock, Query_method query_method) -> void
 {
     switch (query_method) {
         case Query_method::GetTaskList:
-            get_task_list(client_sock);
+            cli::print_task_list(get_task_list(client_sock));
             break;
         default:
             throw errors::WarningProtocolError{
