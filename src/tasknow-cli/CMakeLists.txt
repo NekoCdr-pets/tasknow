@@ -6,6 +6,8 @@ add_executable(tasknow-cli
     main.cpp
     options.h
     options.cpp
+    request_creator.h
+    request_creator.cpp
     response_handler.h
     response_handler.cpp
 )

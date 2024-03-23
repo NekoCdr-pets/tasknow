@@ -11,6 +11,7 @@
 #ifndef TASKNOW_CLIENT_H
 #define TASKNOW_CLIENT_H
 
+#include "buffer.h"
 #include "defines.h"
 
 #include <string_view>
@@ -45,7 +46,7 @@ auto connect_server(
     socklen_t addr_len
 ) -> void;
 
-auto send_request(int* client_sock, Query_method query_method) -> void;
+auto send_request(int* client_sock, Buffer<void>* request) -> void;
 
 auto handle_response(int* client_sock, Query_method query_method) -> void;
 
